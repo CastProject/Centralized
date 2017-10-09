@@ -1,0 +1,30 @@
+{
+  "name": "cast-centralized",
+  "version": "1.0.0",
+  "description": "The centralizing plugin for Cast",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc -p . --watch",
+    "build": "tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CastProject/Centralized.git"
+  },
+  "author": "Eric Rabil",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CastProject/Centralized/issues"
+  },
+  "homepage": "https://github.com/CastProject/Centralized#readme",
+  "dependencies": {
+    "@types/fs-extra": "^4.0.2",
+    "@types/mongoose": "^4.7.23",
+    "@types/node": "^8.0.33",
+    "bufferutil": "^3.0.2",
+    "cast": "CastProject/Cast",
+    "discord.js": "^11.2.1",
+    "fs-extra": "^4.0.2",
+    "node-opus": "^0.2.6"
+  }
+}
