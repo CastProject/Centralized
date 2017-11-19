@@ -89,7 +89,7 @@ bufferutil@^3.0.2:
 
 cast@CastProject/Cast:
   version "0.0.5"
-  resolved "https://codeload.github.com/CastProject/Cast/tar.gz/20b2e29c3e720ff150dc74fae9b9e236ef760906"
+  resolved "https://codeload.github.com/CastProject/Cast/tar.gz/7fc7c90a170e022a90993433a4caddf168db95e1"
   dependencies:
     discord.js "^11.2.1"
     mongoose "^4.11.12"

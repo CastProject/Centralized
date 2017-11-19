@@ -7,6 +7,9 @@ import * as PlConfUtil from "./util/plConfig";
 
 const configPath = path.join(__dirname, "config.json");
 
+type EventName = "info" | "warn" | "error" | "debug";
+type ChannelType = "infoChannel" | "warningChannel" | "errorChannel" | "debugChannel";
+
 export default class Centralized extends EventEmitter implements Plugin {
 
   public cast: Cast;
@@ -26,34 +29,43 @@ export default class Centralized extends EventEmitter implements Plugin {
       this.logger = logger;
       let confLoader = {};
       try {
+        console.log(configPath);
         confLoader = require(configPath);
-      } catch (e) {};
+      } catch (e) {}
       this.pluginConfig = PlConfUtil.deserialize(confLoader);
       resolve();
     });
   }
 
-  onEnable(): Promise<void> {
+  public onEnable(): Promise<void> {
     return new Promise((resolve) => {
       this.attachListeners();
       resolve();
     });
   }
 
-  onDisable(): Promise<void> {
+  public onDisable(): Promise<void> {
     return this.writeJSON();
   }
 
   public writeJSON(): Promise<void> {
-    return fs.writeFile(configPath, this.pluginConfig.json);
+    return fs.writeFile(configPath, JSON.stringify(this.pluginConfig));
   }
-  
+
   private attachListeners(): void {
-    const bind = (eventName: "info" | "warn" | "error" | "debug", thisName: "infoChannel" | "warningChannel" | "errorChannel" | "debugChannel") => {
+    const bind = (eventName: EventName, thisName: ChannelType) => {
       this.on(`log:${eventName}`, (data) => {
-        const channel = this[thisName];
+        const channel: TextChannel | undefined = this[thisName];
         if (channel) {
-          channel.send(`\`\`\`\n${data}\n\`\`\``);
+          const assembledTags = data.tags.map((tag: string, index: number) => {
+            return `[${tag}]${(data.tags.length - 1 === index) ? "" : " "}`;
+          }).join(" ");
+          const tags = `**\`${assembledTags}\`**`;
+          if (eventName === "info") {
+            channel.send(`${tags} \`${data.content}\``);
+          } else {
+            channel.send(`${tags}\n\`\`\`js\n${data.content}\n\`\`\``);
+          }
         }
       });
     };

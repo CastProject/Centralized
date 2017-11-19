@@ -4,17 +4,17 @@ export class PlConfig  {
       info: string,
       warn: string,
       error: string,
-      debug: string
+      debug: string,
     },
-    feedback: string
+    feedback: string,
   } = {
+    feedback: "",
     logging: {
+      debug: "",
+      error: "",
       info: "",
       warn: "",
-      error: "",
-      debug: ""
     },
-    feedback: ""
   };
 
   public get json(): string {
@@ -29,11 +29,7 @@ const configKeys = Object.keys(PlConfig.prototype);
 export function deserialize(object: {[key: string]: any}): PlConfig {
   const configEntity = new PlConfig();
   Object.keys(object).forEach((key) => {
-    try {
-      if (configKeys.indexOf(key) >= 0) {
-        configEntity[key] = object[key];
-      }
-    } catch (e) {}
+    (configEntity as any)[key] = object[key];
   });
   return configEntity;
 }
