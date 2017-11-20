@@ -1,4 +1,4 @@
-import {Plugin, Cast, CommandContainer, Logger} from "cast";
+import {Cast, CommandContainer, Logger, Plugin} from "cast";
 import {TextChannel} from "discord.js";
 import {EventEmitter} from "events";
 import * as fs from "fs-extra";
@@ -13,7 +13,7 @@ type ChannelType = "infoChannel" | "warningChannel" | "errorChannel" | "debugCha
 export default class Centralized extends EventEmitter implements Plugin {
 
   public cast: Cast;
-  // public commands: CommandContainer;
+  public commands: CommandContainer;
   public logger: Logger;
 
   public name: string = "Centralized";
@@ -27,6 +27,7 @@ export default class Centralized extends EventEmitter implements Plugin {
     return new Promise((resolve) => {
       this.cast = cast;
       this.logger = logger;
+      this.commands = this.cast.createCommandContainer(path.join(__dirname, "commands"), this);
       let confLoader = {};
       try {
         console.log(configPath);
@@ -37,15 +38,14 @@ export default class Centralized extends EventEmitter implements Plugin {
     });
   }
 
-  public onEnable(): Promise<void> {
-    return new Promise((resolve) => {
-      this.attachListeners();
-      resolve();
-    });
+  public async onEnable(): Promise<void> {
+    this.attachListeners();
+    await this.commands.loadAll();
   }
 
-  public onDisable(): Promise<void> {
-    return this.writeJSON();
+  public async onDisable(): Promise<void> {
+    await this.commands.unloadAll();
+    await this.writeJSON();
   }
 
   public writeJSON(): Promise<void> {
