@@ -30,6 +30,7 @@ export default class FeedbackReply implements Command {
   public async handle(response: Response, message: Message, args: string[]): Promise<void> {
     const feedbackID = args[1];
     if (!feedbackID.match(/g!?(1|\d{17,19})/)) {
+      await response.fail();
       await response.reply("Please provide a valid message ID");
       return;
     }
@@ -53,12 +54,15 @@ export default class FeedbackReply implements Command {
           await user.send(feedbackReply);
           await message.react("🆗");
         } else {
+          await response.fail();
           await response.reply("I cannot send messages to that user.");
         }
       } else {
+        await response.fail();
         await response.reply("That is not a valid feedback object.");
       }
     } else {
+      await response.fail();
       await response.reply("Sorry, I don't have a feedback server setup.");
     }
   }

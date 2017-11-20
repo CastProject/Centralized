@@ -22,7 +22,7 @@
     "@types/mongoose": "^4.7.23",
     "@types/node": "^8.0.33",
     "bufferutil": "^3.0.2",
-    "cast": "CastProject/Cast",
+    "cast": "CastProject/Cast#b8363b8",
     "discord.js": "^11.2.1",
     "fs-extra": "^4.0.2",
     "node-opus": "^0.2.6"

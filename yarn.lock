@@ -94,6 +94,13 @@ cast@CastProject/Cast:
     discord.js "^11.2.1"
     mongoose "^4.11.12"
 
+cast@CastProject/Cast#b8363b8:
+  version "0.0.5"
+  resolved "https://codeload.github.com/CastProject/Cast/tar.gz/b8363b8"
+  dependencies:
+    discord.js "^11.2.1"
+    mongoose "^4.11.12"
+
 chownr@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.0.1.tgz#e2a75042a9551908bebd25b8523d5f9769d79181"
