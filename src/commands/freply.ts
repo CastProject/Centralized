@@ -29,11 +29,11 @@ export default class FeedbackReply implements Command {
 
   public async handle(response: Response, message: Message, args: string[]): Promise<void> {
     const feedbackID = args[1];
-    if (!feedbackID.match(/g!?(1|\d{17,19})/)) {
-      await response.fail();
-      await response.reply("Please provide a valid message ID");
-      return;
-    }
+    // if (!feedbackID.match(/g!?(1|\d{17,19})/)) {
+    //  await response.fail();
+    //  await response.reply("Please provide a valid message ID");
+    //  return;
+    // }
     const feedbackResponse = args.slice(2).join(" ");
 
     const feedbackChannel = this.cast.client.channels.get(this.parent.pluginConfig.channelMap.feedback);

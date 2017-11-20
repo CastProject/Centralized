@@ -31,6 +31,11 @@ export default class Feedback implements Command {
       return;
     }
     const feedback = args.slice(1).join(" ");
+    if (feedback.length > 1023) {
+      await response.fail();
+      await response.reply("Please make your feedback shorter.");
+      return;
+    }
     const channel = this.cast.client.channels.get(centralized.pluginConfig.channelMap.feedback);
     if (channel instanceof TextChannel) {
       await message.react("🆗");
