@@ -63,6 +63,15 @@ export default class Centralized extends EventEmitter implements Plugin {
             return `#${(channelRepl as any).name}`;
           }
           return input;
+        })
+        .replace(/<@!?[0-9]+>/g, (input: any) => {
+          const id = input.replace(/<|!|>|@/g, "");
+          const user = this.cast.client.users.get(id);
+          if (user) {
+            return `@${user.username}`;
+          } else {
+            return `${input.substring(0, 1)}\u200b${input.substring(1)}`;
+          }
         });
         if (channel) {
           const assembledTags = data.tags.map((tag: string, index: number) => {
