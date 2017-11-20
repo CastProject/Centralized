@@ -56,6 +56,14 @@ export default class Centralized extends EventEmitter implements Plugin {
     const bind = (eventName: EventName, thisName: ChannelType) => {
       this.on(`log:${eventName}`, (data) => {
         const channel: TextChannel | undefined = this[thisName];
+        data.content = data.content.replace(/@(everyone|here)/g, "@\u200b$1")
+        .replace(/<#[0-9]+>/g, (input: any) => {
+          const channelRepl = this.cast.client.channels.get(input.replace(/<|#|>/g, ""));
+          if (channelRepl) {
+            return `#${(channelRepl as any).name}`;
+          }
+          return input;
+        });
         if (channel) {
           const assembledTags = data.tags.map((tag: string, index: number) => {
             return `[${tag}]${(data.tags.length - 1 === index) ? "" : " "}`;
